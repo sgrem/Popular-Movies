@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="iv_selfy_desc">Selfy jpg in drawable</string>
+    <string name="IV_Detail_Desc">Movie Poster Image</string>
+    <string name="movie_title">Title:</string>
+    <string name="movie_synopsis">Plot Synopsis:</string>
+    <string name="movie_rating">Rating:</string>
+    <string name="movie_release_date">Release Date:</string>
 </resources>

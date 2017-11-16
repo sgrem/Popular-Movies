@@ -74,6 +74,7 @@ public class NetworkUtils {
             apiResponseDataJsonObject = new JSONObject(apiResponseData);
             resultsJsonArray = apiResponseDataJsonObject.getJSONArray(TmdbConstants.TMDB_RESULTS_KEY);
             Movie movie = null;
+            Movie.MOVIE_LIST.clear();
             for(int i = 0; i < resultsJsonArray.length(); i++){
                 movieJsonObject = resultsJsonArray.getJSONObject(i);
                 movie = new Movie();

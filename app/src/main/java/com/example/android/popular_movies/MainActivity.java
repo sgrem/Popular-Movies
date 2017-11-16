@@ -1,5 +1,6 @@
 package com.example.android.popular_movies;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -79,7 +80,9 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
 
     }
 
-    public void onClickTmdbAdapter(String movie) {
-        //TODO Open movie detail activity
+    public void onClickTmdbAdapter(Integer position) {
+        Intent detailActivityIntent = new Intent(this, MovieDetailActivity.class);
+        detailActivityIntent.putExtra("position", position);
+        startActivity(detailActivityIntent);
     }
 }

@@ -24,7 +24,7 @@ public class TmdbAdapter extends RecyclerView.Adapter<TmdbAdapter.TmdbAdapterVie
     private List<Movie> mMovieList;
 
     public interface TmdbAdapterOnClickHandler{
-        void onClickTmdbAdapter(String string);
+        void onClickTmdbAdapter(Integer position);
     }
 
     public TmdbAdapter(TmdbAdapterOnClickHandler tmdbAdapterOnClickHandler, List<Movie> movieList) {
@@ -65,14 +65,16 @@ public class TmdbAdapter extends RecyclerView.Adapter<TmdbAdapter.TmdbAdapterVie
 
         @Override
         public void onClick(View v) {
-            //String movie = mTmdbImageView.getTag().toString();
-            String movie = mTmdbImageView.getTag().toString();
-            mClickHandler.onClickTmdbAdapter(movie);
+            Integer position = (Integer) mTmdbImageView.getTag();
+            mClickHandler.onClickTmdbAdapter(position);
         }
 
         public void bind(int position){
             Context context = mTmdbImageView.getContext();
-            Picasso.with(context).load(TmdbConstants.TMDB_POSTER_URL + mMovieList.get(position).getPosterImageThumbnail()).into(mTmdbImageView);
+            mTmdbImageView.setOnClickListener(this);
+            mTmdbImageView.setTag(Integer.valueOf(position));
+            Picasso.with(context).load(TmdbConstants.TMDB_POSTER_URL +
+                    mMovieList.get(position).getPosterImageThumbnail()).into(mTmdbImageView);
         }
 
     }

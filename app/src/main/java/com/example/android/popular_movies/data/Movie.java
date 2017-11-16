@@ -15,7 +15,7 @@ public class Movie {
     private String title = null;
     private String posterImageThumbnail = null;
     private String plotSynopsis = null;
-    private int userRating;
+    private float userRating;
     private String releaseDate = null;
 
     public int getId() {
@@ -50,7 +50,7 @@ public class Movie {
         this.plotSynopsis = plotSynopsis;
     }
 
-    public int getUserRating() {
+    public float getUserRating() {
         return userRating;
     }
 
