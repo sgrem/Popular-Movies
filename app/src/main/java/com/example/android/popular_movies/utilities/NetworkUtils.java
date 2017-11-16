@@ -2,6 +2,8 @@ package com.example.android.popular_movies.utilities;
 
 import android.net.Uri;
 
+import com.example.android.popular_movies.data.Movie;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,12 +23,9 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    public static final String TMDB_DISCOVER = "https://api.themoviedb.org/3/discover/movie";
-    public static final String TMDB_POSTER = "https://image.tmdb.org/t/p/w500";
-
     public static URL buildTmdbDiscoverUrl() {
 
-        Uri tmdbUri = Uri.parse(TMDB_DISCOVER)
+        Uri tmdbUri = Uri.parse(TmdbConstants.TMDB_DISCOVER_URL)
                 .buildUpon()
                 .appendQueryParameter("sort_by", "popularity.desc")
                 .appendQueryParameter("api_key", TmdbApi.TMDB_API )
@@ -66,24 +64,31 @@ public class NetworkUtils {
         }
     }
 
-    public static List<String> parseTmdbResults(String results){
+    public static List<Movie> parseTmdbResults(String apiResponseData){
 
-        List<String> resultsList = new ArrayList<>();
-        JSONObject resultsJsonObject = null;
+        JSONObject apiResponseDataJsonObject = null;
         JSONArray resultsJsonArray = null;
         JSONObject movieJsonObject = null;
 
         try {
-            resultsJsonObject = new JSONObject(results);
-            resultsJsonArray = resultsJsonObject.getJSONArray("results");
+            apiResponseDataJsonObject = new JSONObject(apiResponseData);
+            resultsJsonArray = apiResponseDataJsonObject.getJSONArray(TmdbConstants.TMDB_RESULTS_KEY);
+            Movie movie = null;
             for(int i = 0; i < resultsJsonArray.length(); i++){
                 movieJsonObject = resultsJsonArray.getJSONObject(i);
-                resultsList.add(movieJsonObject.getString("title"));
+                movie = new Movie();
+                movie.setId(movieJsonObject.getInt(TmdbConstants.TMDB_ID_KEY));
+                movie.setTitle(movieJsonObject.getString(TmdbConstants.TMDB_TITLE_KEY));
+                movie.setPosterImageThumbnail(movieJsonObject.getString(TmdbConstants.TMDB_POSTER_KEY));
+                movie.setPlotSynopsis(movieJsonObject.getString(TmdbConstants.TMDB_SYNOPSIS_KEY));
+                movie.setUserRating(movieJsonObject.getInt(TmdbConstants.TMDB_USER_RATING_KEY));
+                movie.setReleaseDate(movieJsonObject.getString(TmdbConstants.TMDB_RELEASE_DATE_KEY));
+                Movie.MOVIE_LIST.add(movie);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return resultsList;
+        return Movie.MOVIE_LIST;
 
     }
 }
