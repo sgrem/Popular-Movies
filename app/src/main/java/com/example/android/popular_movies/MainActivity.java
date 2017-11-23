@@ -1,13 +1,21 @@
 package com.example.android.popular_movies;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.popular_movies.data.Movie;
@@ -19,14 +27,19 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbAdapterOnClickHandler {
 
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private RecyclerView mRecyclerviewTmdb;
     private TmdbAdapter mTmdbAdapter;
+    private TextView mTvInternetMessage;
+    private Button mBtnRetry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mTvInternetMessage = findViewById(R.id.tv_internet_message);
+        mBtnRetry = findViewById(R.id.btn_retry);
         mRecyclerviewTmdb = findViewById(R.id.recyclerview_tmdb);
         /*
          * LinearLayoutManager can support HORIZONTAL or VERTICAL orientations. The reverse layout
@@ -45,9 +58,42 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
          */
         mRecyclerviewTmdb.setHasFixedSize(true);
 
-        new TmdbDiscoverTask().execute(NetworkUtils.buildTmdbDiscoverUrl());
+        retrievePopularMovies();
     }
 
+    private void retrievePopularMovies(){
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (isConnected) {
+            Log.i(LOG_TAG, "Running TmdbDiscoverTask");
+            connectedLayout();
+            new TmdbDiscoverTask().execute(NetworkUtils.buildTmdbDiscoverUrl());
+        } else {
+            Log.i(LOG_TAG, "Skipping TmdbDiscoverTask: Not Connected to Internet");
+            notConnectedLayout();
+        }
+    }
+
+    private void connectedLayout(){
+        mTvInternetMessage.setVisibility(View.GONE);
+        mBtnRetry.setVisibility(View.GONE);
+    }
+
+    private void notConnectedLayout(){
+        mTvInternetMessage.setVisibility(View.VISIBLE);
+        mBtnRetry.setVisibility(View.VISIBLE);
+    }
+
+    public void onClickRetry(View v){
+        retrievePopularMovies();
+    }
+
+    @SuppressLint("StaticFieldLeak")
     private class TmdbDiscoverTask extends AsyncTask<URL, Void, List<Movie>> {
 
         @Override
@@ -70,12 +116,6 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
 
             mTmdbAdapter = new TmdbAdapter(MainActivity.this, movieList);
             mRecyclerviewTmdb.setAdapter(mTmdbAdapter);
-            /*if (movieList != null) {
-                for (String movie : movieList) {
-                    mTvTmdbJson.append(movie + "\n");
-
-                }
-            }*/
         }
 
     }
@@ -85,4 +125,6 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
         detailActivityIntent.putExtra("position", position);
         startActivity(detailActivityIntent);
     }
+
+
 }
