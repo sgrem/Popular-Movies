@@ -13,9 +13,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Steve on 11/8/2017.
@@ -23,12 +25,17 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
+    public static final Retrofit RETROFIT = new Retrofit.Builder()
+            .baseUrl(TmdbConstants.TMDB_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
     public static URL buildTmdbDiscoverUrl() {
 
         Uri tmdbUri = Uri.parse(TmdbConstants.TMDB_DISCOVER_URL)
                 .buildUpon()
                 .appendQueryParameter("sort_by", "popularity.desc")
-                .appendQueryParameter("api_key", TmdbApi.TMDB_API )
+                .appendQueryParameter("api_key", TmdbApiKey.TMDB_API )
                 .build();
         URL tmdbDiscoverUrl = null;
         try {

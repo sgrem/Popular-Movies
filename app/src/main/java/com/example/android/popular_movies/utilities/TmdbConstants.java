@@ -5,6 +5,7 @@ package com.example.android.popular_movies.utilities;
  */
 
 public class TmdbConstants {
+    public static final String TMDB_BASE_URL = "https://api.themoviedb.org";
     public static final String TMDB_DISCOVER_URL = "https://api.themoviedb.org/3/discover/movie";
     public static final String TMDB_POSTER_URL = "https://image.tmdb.org/t/p/w500";
     public static final String TMDB_RESULTS_KEY = "results";

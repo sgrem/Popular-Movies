@@ -20,10 +20,14 @@ import android.widget.TextView;
 
 import com.example.android.popular_movies.data.Movie;
 import com.example.android.popular_movies.utilities.NetworkUtils;
+import com.example.android.popular_movies.utilities.TmdbApi;
+import com.example.android.popular_movies.utilities.TmdbApiKey;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+
+import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbAdapterOnClickHandler {
 
@@ -99,14 +103,22 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
         @Override
         protected List<Movie> doInBackground(URL... urls) {
 
-            String response = null;
+            // String response = null;
             List<Movie> movieList = null;
+
+            TmdbApi tmdbApi = NetworkUtils.RETROFIT.create(TmdbApi.class);
+            Call<List<Movie>> call = tmdbApi.getMovies("popularity.desc", TmdbApiKey.TMDB_API);
             try {
+                movieList = call.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            /*try {
                 response = NetworkUtils.getResponseFromHttpUrl(urls[0]);
                 movieList = NetworkUtils.parseTmdbResults(response);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
             return movieList;
         }
 
