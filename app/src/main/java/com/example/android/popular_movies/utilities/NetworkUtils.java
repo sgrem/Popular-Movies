@@ -3,6 +3,7 @@ package com.example.android.popular_movies.utilities;
 import android.net.Uri;
 
 import com.example.android.popular_movies.data.Movie;
+import com.example.android.popular_movies.data.MovieContainer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,22 +82,22 @@ public class NetworkUtils {
             apiResponseDataJsonObject = new JSONObject(apiResponseData);
             resultsJsonArray = apiResponseDataJsonObject.getJSONArray(TmdbConstants.TMDB_RESULTS_KEY);
             Movie movie = null;
-            Movie.MOVIE_LIST.clear();
+            MovieContainer.results.clear();
             for(int i = 0; i < resultsJsonArray.length(); i++){
                 movieJsonObject = resultsJsonArray.getJSONObject(i);
                 movie = new Movie();
                 movie.setId(movieJsonObject.getInt(TmdbConstants.TMDB_ID_KEY));
-                movie.setTitle(movieJsonObject.getString(TmdbConstants.TMDB_TITLE_KEY));
-                movie.setPosterImageThumbnail(movieJsonObject.getString(TmdbConstants.TMDB_POSTER_KEY));
-                movie.setPlotSynopsis(movieJsonObject.getString(TmdbConstants.TMDB_SYNOPSIS_KEY));
-                movie.setUserRating(movieJsonObject.getInt(TmdbConstants.TMDB_USER_RATING_KEY));
-                movie.setReleaseDate(movieJsonObject.getString(TmdbConstants.TMDB_RELEASE_DATE_KEY));
-                Movie.MOVIE_LIST.add(movie);
+                movie.setOriginal_title(movieJsonObject.getString(TmdbConstants.TMDB_TITLE_KEY));
+                movie.setPoster_path(movieJsonObject.getString(TmdbConstants.TMDB_POSTER_KEY));
+                movie.setOverview(movieJsonObject.getString(TmdbConstants.TMDB_SYNOPSIS_KEY));
+                movie.setVote_average(movieJsonObject.getInt(TmdbConstants.TMDB_USER_RATING_KEY));
+                movie.setRelease_date(movieJsonObject.getString(TmdbConstants.TMDB_RELEASE_DATE_KEY));
+                MovieContainer.results.add(movie);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return Movie.MOVIE_LIST;
+        return MovieContainer.results;
 
     }
 }

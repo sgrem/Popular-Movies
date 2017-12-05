@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.popular_movies.data.Movie;
 import com.example.android.popular_movies.utilities.TmdbConstants;
@@ -74,7 +73,7 @@ public class TmdbAdapter extends RecyclerView.Adapter<TmdbAdapter.TmdbAdapterVie
             mTmdbImageView.setOnClickListener(this);
             mTmdbImageView.setTag(Integer.valueOf(position));
             Picasso.with(context).load(TmdbConstants.TMDB_POSTER_URL +
-                    mMovieList.get(position).getPosterImageThumbnail()).into(mTmdbImageView);
+                    mMovieList.get(position).getPoster_path()).into(mTmdbImageView);
         }
 
     }
