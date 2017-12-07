@@ -1,6 +1,18 @@
-The following is the project overview from Udacity "Welcome to Popular Movies, Stage 1"
+# API key required
+
+To fetch popular movies, this app uses the API from themoviedb.org.
+* If you don’t already have an account, you will need to create one in order to request an API Key.
+* In your request for a key, state that your usage will be for educational/non-commercial use. You will also need to provide some personal information to complete the request. Once you submit your request, you should receive your key via email shortly after.
+* Create a class called TmdbApiKey as follows
+> public class TmdbApiKey {
+    public static final String TMDB_API = "Your api key goes here"; }
+
+
+
 
 # Project Overview
+The following is the project overview from Udacity "Welcome to Popular Movies, Stage 1"
+
 Most of us can relate to kicking back on the couch and enjoying a movie with friends and family. In this project, you’ll build an app to allow users to discover the most popular movies playing. We will split the development of this app in two stages. First, let's talk about stage 1.
 
 In this stage you’ll build the core experience of your movies app.
