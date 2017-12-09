@@ -103,9 +103,7 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
         @Override
         protected List<Movie> doInBackground(URL... urls) {
 
-            // String response = null;
             List<Movie> movieList = null;
-
             TmdbApi tmdbApi = NetworkUtils.RETROFIT.create(TmdbApi.class);
             Call<List<Movie>> call = tmdbApi.getMovies("popularity.desc", TmdbApiKey.TMDB_API);
             try {
@@ -125,8 +123,9 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
         @Override
         protected void onPostExecute(List<Movie> movieList) {
             super.onPostExecute(movieList);
+            Movie.movieList = movieList;
 
-            mTmdbAdapter = new TmdbAdapter(MainActivity.this, movieList);
+            mTmdbAdapter = new TmdbAdapter(MainActivity.this, Movie.movieList);
             mRecyclerviewTmdb.setAdapter(mTmdbAdapter);
         }
 

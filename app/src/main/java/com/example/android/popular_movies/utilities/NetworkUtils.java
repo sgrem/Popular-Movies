@@ -3,7 +3,8 @@ package com.example.android.popular_movies.utilities;
 import android.net.Uri;
 
 import com.example.android.popular_movies.data.Movie;
-import com.example.android.popular_movies.data.MovieContainer;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,9 +28,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkUtils {
 
+    private static final Type COLLECTION_TYPE = new TypeToken<List<Movie>>(){}.getType();
+
     public static final Retrofit RETROFIT = new Retrofit.Builder()
             .baseUrl(TmdbConstants.TMDB_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                    .registerTypeAdapter(COLLECTION_TYPE, new MovieListTypeAdapter().nullSafe())
+                    .create()
+            ))
             .build();
 
     public static URL buildTmdbDiscoverUrl() {
@@ -82,7 +89,7 @@ public class NetworkUtils {
             apiResponseDataJsonObject = new JSONObject(apiResponseData);
             resultsJsonArray = apiResponseDataJsonObject.getJSONArray(TmdbConstants.TMDB_RESULTS_KEY);
             Movie movie = null;
-            MovieContainer.results.clear();
+            Movie.movieList.clear();
             for(int i = 0; i < resultsJsonArray.length(); i++){
                 movieJsonObject = resultsJsonArray.getJSONObject(i);
                 movie = new Movie();
@@ -92,12 +99,12 @@ public class NetworkUtils {
                 movie.setOverview(movieJsonObject.getString(TmdbConstants.TMDB_SYNOPSIS_KEY));
                 movie.setVote_average(movieJsonObject.getInt(TmdbConstants.TMDB_USER_RATING_KEY));
                 movie.setRelease_date(movieJsonObject.getString(TmdbConstants.TMDB_RELEASE_DATE_KEY));
-                MovieContainer.results.add(movie);
+                Movie.movieList.add(movie);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return MovieContainer.results;
+        return Movie.movieList;
 
     }
 }

@@ -1,15 +1,11 @@
 package com.example.android.popular_movies.utilities;
 
 import com.example.android.popular_movies.data.Movie;
-import com.squareup.moshi.Moshi;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.moshi.MoshiConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**

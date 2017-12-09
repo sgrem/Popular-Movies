@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popular_movies.data.Movie;
-import com.example.android.popular_movies.data.MovieContainer;
 import com.example.android.popular_movies.utilities.TmdbConstants;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +31,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", 0);
-        Movie movie = MovieContainer.results.get(position);
+        Movie movie = Movie.movieList.get(position);
         if (movie != null){
             Picasso.with(this).load(TmdbConstants.TMDB_POSTER_URL +
                     movie.getPoster_path()).into(mIvImage);
