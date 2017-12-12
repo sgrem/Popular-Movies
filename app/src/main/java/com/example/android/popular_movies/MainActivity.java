@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
          */
         /*StaggeredGridLayoutManager layoutManager
                 = new StaggeredGridLayoutManager(this, Resources.Theme.obta);*/
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new GridLayoutManager(this, 2);
 
         mRecyclerviewTmdb.setLayoutManager(layoutManager);
 
