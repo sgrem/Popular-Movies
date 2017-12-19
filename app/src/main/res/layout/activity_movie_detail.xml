@@ -28,6 +28,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="@string/movie_title"
+            android:textStyle="bold"
             android:textSize="20sp"/>
         <TextView
             android:id="@+id/tv_movie_title"
@@ -35,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="start"
+            android:paddingLeft="6dp"
             android:textSize="20sp"/>
     </LinearLayout>
 
@@ -49,6 +51,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="@string/movie_rating"
+            android:textStyle="bold"
             android:textSize="20sp"/>
         <TextView
             android:id="@+id/tv_movie_rating"
@@ -56,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="start"
+            android:paddingLeft="6dp"
             android:textSize="20sp"/>
     </LinearLayout>
 
@@ -70,6 +74,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="@string/movie_release_date"
+            android:textStyle="bold"
             android:textSize="20sp"/>
         <TextView
             android:id="@+id/tv_movie_release_date"
@@ -77,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="start"
+            android:paddingLeft="6dp"
             android:textSize="20sp"/>
     </LinearLayout>
 
@@ -91,12 +97,14 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="@string/movie_synopsis"
+            android:textStyle="bold"
             android:textSize="20sp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="start"
+            android:paddingLeft="6dp"
             android:text=""
             android:textSize="20sp"/>
     </LinearLayout>

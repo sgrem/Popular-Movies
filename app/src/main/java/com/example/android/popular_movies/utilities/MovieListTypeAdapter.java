@@ -63,20 +63,28 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("id")) {
-                id = reader.nextInt();
-            } else if (name.equals("original_title")) {
-                original_title = reader.nextString();
-            } else if (name.equals("poster_path")) {
-                poster_path = reader.nextString();
-            } else if (name.equals("overview")) {
-                overview = reader.nextString();
-            } else if (name.equals("vote_average")) {
-                vote_average = reader.nextDouble();
-            } else if (name.equals("release_date")) {
-                release_date = reader.nextString();
-            } else {
-                reader.skipValue();
+            switch (name) {
+                case "id":
+                    id = reader.nextInt();
+                    break;
+                case "original_title":
+                    original_title = reader.nextString();
+                    break;
+                case "poster_path":
+                    poster_path = reader.nextString();
+                    break;
+                case "overview":
+                    overview = reader.nextString();
+                    break;
+                case "vote_average":
+                    vote_average = reader.nextDouble();
+                    break;
+                case "release_date":
+                    release_date = reader.nextString();
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
             }
         }
         reader.endObject();
