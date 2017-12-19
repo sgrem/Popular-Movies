@@ -8,4 +8,6 @@
     <string name="movie_release_date">Release Date:</string>
     <string name="internet_message">Couldn\'t connect to internet</string>
     <string name="retry">RETRY</string>
+    <string name="action_sort_by_popularity">Sort By Popularity</string>
+    <string name="action_sort_by_rating">Sort By Rating</string>
 </resources>

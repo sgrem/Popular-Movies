@@ -1,6 +1,7 @@
 package com.example.android.popular_movies.data;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class Movie {
 
-    public static List<Movie> movieList;
+    public static List<Movie> movieList = new ArrayList<>();
 
     private int id;
     private String original_title = null;

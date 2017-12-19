@@ -27,7 +27,8 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
 
     @Override
     public List<Movie> read(JsonReader reader) throws IOException {
-        List<Movie> movieList = new ArrayList<>();
+        // List<Movie> movieList = new ArrayList<>();
+        List<Movie> movieList = Movie.movieList;
         if (reader.peek() == JsonToken.NULL) {
             reader.nextNull();
             return null;
@@ -39,8 +40,12 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
             Log.d(TAG, "Executing: " + name);
             if (name.equals("results")) {
                 reader.beginArray();
+                movieList.clear();
                 while (reader.hasNext()) {
-                    movieList.add(readMovie(reader));
+                    Movie movie = readMovie(reader);
+                    if (movie != null){
+                        movieList.add(movie);
+                    }
                 }
                 reader.endArray();
             } else {
@@ -65,21 +70,45 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
             String name = reader.nextName();
             switch (name) {
                 case "id":
+                    if (reader.peek() == JsonToken.NULL) {
+                        reader.nextNull();
+                        continue;
+                    }
                     id = reader.nextInt();
                     break;
                 case "original_title":
+                    if (reader.peek() == JsonToken.NULL) {
+                        reader.nextNull();
+                        continue;
+                    }
                     original_title = reader.nextString();
                     break;
                 case "poster_path":
+                    if (reader.peek() == JsonToken.NULL) {
+                        reader.nextNull();
+                        continue;
+                    }
                     poster_path = reader.nextString();
                     break;
                 case "overview":
+                    if (reader.peek() == JsonToken.NULL) {
+                        reader.nextNull();
+                        continue;
+                    }
                     overview = reader.nextString();
                     break;
                 case "vote_average":
+                    if (reader.peek() == JsonToken.NULL) {
+                        reader.nextNull();
+                        continue;
+                    }
                     vote_average = reader.nextDouble();
                     break;
                 case "release_date":
+                    if (reader.peek() == JsonToken.NULL) {
+                        reader.nextNull();
+                        continue;
+                    }
                     release_date = reader.nextString();
                     break;
                 default:
@@ -88,6 +117,17 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
             }
         }
         reader.endObject();
-        return new Movie(id, original_title, poster_path, overview, vote_average, release_date);
+        if (validateMovieParms(id, original_title, poster_path, overview, vote_average, release_date)){
+            return new Movie(id, original_title, poster_path, overview, vote_average, release_date);
+        }
+        return null;
+    }
+
+    private boolean validateMovieParms(int id, String original_title, String poster_path, String overview,
+                                       double vote_average, String release_date){
+        if (poster_path == null){
+            return false;
+        }
+        return true;
     }
 }

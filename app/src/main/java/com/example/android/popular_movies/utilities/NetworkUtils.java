@@ -2,6 +2,7 @@ package com.example.android.popular_movies.utilities;
 
 import android.net.Uri;
 
+import com.example.android.popular_movies.MainActivity;
 import com.example.android.popular_movies.data.Movie;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -38,11 +39,20 @@ public class NetworkUtils {
             ))
             .build();
 
-    public static URL buildTmdbDiscoverUrl() {
+    public static URL buildTmdbDiscoverUrl(MainActivity.SortMoviesBy sortOrder) {
+        String sortOrderQuery = "popularity.desc";
+        switch (sortOrder){
+            case POPULARITY:
+                sortOrderQuery = "popularity.desc";
+                break;
+            case RATING:
+                sortOrderQuery = "vote_average.desc";
+                break;
+        }
 
         Uri tmdbUri = Uri.parse(TmdbConstants.TMDB_DISCOVER_URL)
                 .buildUpon()
-                .appendQueryParameter("sort_by", "popularity.desc")
+                .appendQueryParameter("sort_by", sortOrderQuery)
                 .appendQueryParameter("api_key", TmdbApiKey.TMDB_API )
                 .build();
         URL tmdbDiscoverUrl = null;

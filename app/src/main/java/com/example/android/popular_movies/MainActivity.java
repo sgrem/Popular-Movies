@@ -3,18 +3,18 @@ package com.example.android.popular_movies;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
     private TmdbAdapter mTmdbAdapter;
     private TextView mTvInternetMessage;
     private Button mBtnRetry;
+    public enum SortMoviesBy {POPULARITY, RATING}
+    private SortMoviesBy movieSortOrder = SortMoviesBy.POPULARITY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
          */
         mRecyclerviewTmdb.setHasFixedSize(true);
 
+        mTmdbAdapter = new TmdbAdapter(MainActivity.this, Movie.movieList);
+        mRecyclerviewTmdb.setAdapter(mTmdbAdapter);
+
         retrievePopularMovies();
     }
 
@@ -77,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
         if (isConnected) {
             Log.i(LOG_TAG, "Running TmdbDiscoverTask");
             connectedLayout();
-            new TmdbDiscoverTask().execute(NetworkUtils.buildTmdbDiscoverUrl());
+            new TmdbDiscoverTask().execute(movieSortOrder);
         } else {
             Log.i(LOG_TAG, "Skipping TmdbDiscoverTask: Not Connected to Internet");
             notConnectedLayout();
@@ -98,15 +103,48 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
         retrievePopularMovies();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_movies, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_sort_by_popularity:
+                movieSortOrder = SortMoviesBy.POPULARITY;
+                new TmdbDiscoverTask().execute(movieSortOrder);
+                return true;
+            case R.id.action_sort_by_rating:
+                movieSortOrder = SortMoviesBy.RATING;
+                new TmdbDiscoverTask().execute(movieSortOrder);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @SuppressLint("StaticFieldLeak")
-    private class TmdbDiscoverTask extends AsyncTask<URL, Void, List<Movie>> {
+    private class TmdbDiscoverTask extends AsyncTask<MainActivity.SortMoviesBy, Void, List<Movie>> {
 
         @Override
-        protected List<Movie> doInBackground(URL... urls) {
+        protected List<Movie> doInBackground(MainActivity.SortMoviesBy... sortOrder) {
+            String sortOrderQuery = "popularity.desc";
+            switch (sortOrder[0]){
+                case POPULARITY:
+                    sortOrderQuery = "popularity.desc";
+                    break;
+                case RATING:
+                    sortOrderQuery = "vote_average.desc";
+                    break;
+            }
 
             List<Movie> movieList = null;
             TmdbApi tmdbApi = NetworkUtils.RETROFIT.create(TmdbApi.class);
-            Call<List<Movie>> call = tmdbApi.getMovies("popularity.desc", TmdbApiKey.TMDB_API);
+            Call<List<Movie>> call = tmdbApi.getMovies(sortOrderQuery, TmdbApiKey.TMDB_API);
             try {
                 movieList = call.execute().body();
             } catch (IOException e) {
@@ -126,8 +164,7 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
             super.onPostExecute(movieList);
             Movie.movieList = movieList;
 
-            mTmdbAdapter = new TmdbAdapter(MainActivity.this, Movie.movieList);
-            mRecyclerviewTmdb.setAdapter(mTmdbAdapter);
+            mTmdbAdapter.notifyDataSetChanged();
         }
 
     }
