@@ -39,7 +39,7 @@ public class NetworkUtils {
             ))
             .build();
 
-    public static URL buildTmdbDiscoverUrl(MainActivity.SortMoviesBy sortOrder) {
+    /*public static URL buildTmdbDiscoverUrl(MainActivity.SortMoviesBy sortOrder) {
         String sortOrderQuery = "popularity.desc";
         switch (sortOrder){
             case POPULARITY:
@@ -62,7 +62,7 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         return tmdbDiscoverUrl;
-    }
+    }*/
     /**
      * This method returns the entire result from the HTTP response.
      *
@@ -70,7 +70,7 @@ public class NetworkUtils {
      * @return The contents of the HTTP response.
      * @throws IOException Related to network and stream reading
      */
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
+    /*public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
@@ -87,9 +87,9 @@ public class NetworkUtils {
         } finally {
             urlConnection.disconnect();
         }
-    }
+    }*/
 
-    public static List<Movie> parseTmdbResults(String apiResponseData){
+    /*public static List<Movie> parseTmdbResults(String apiResponseData){
 
         JSONObject apiResponseDataJsonObject = null;
         JSONArray resultsJsonArray = null;
@@ -116,5 +116,5 @@ public class NetworkUtils {
         }
         return Movie.movieList;
 
-    }
+    }*/
 }

@@ -3,6 +3,7 @@ package com.example.android.popular_movies.utilities;
 import android.util.Log;
 
 import com.example.android.popular_movies.data.Movie;
+import com.example.android.popular_movies.data.MovieList;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -27,8 +28,7 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
 
     @Override
     public List<Movie> read(JsonReader reader) throws IOException {
-        // List<Movie> movieList = new ArrayList<>();
-        List<Movie> movieList = Movie.movieList;
+        List<Movie> movieList = new ArrayList<>();
         if (reader.peek() == JsonToken.NULL) {
             reader.nextNull();
             return null;
