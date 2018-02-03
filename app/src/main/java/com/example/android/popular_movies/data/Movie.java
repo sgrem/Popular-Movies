@@ -10,8 +10,6 @@ import java.util.List;
 
 public class Movie {
 
-    // public static List<Movie> movieList = new ArrayList<>();
-
     private int id;
     private String original_title = null;
     private String poster_path = null;

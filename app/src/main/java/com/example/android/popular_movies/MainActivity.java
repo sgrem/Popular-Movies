@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
     private TmdbAdapter mTmdbAdapter;
     private TextView mTvInternetMessage;
     private Button mBtnRetry;
-    private ProgressBar mProgressBar;
 
     // If current page is the last page (Pagination will stop after this page load)
     private boolean isLastPage = false;
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
         mTvInternetMessage = findViewById(R.id.tv_internet_message);
         mBtnRetry = findViewById(R.id.btn_retry);
         mRecyclerviewTmdb = findViewById(R.id.recyclerview_tmdb);
-        mProgressBar = findViewById(R.id.pb_list_pagenation);
 
         LinearLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mRecyclerviewTmdb.setLayoutManager(layoutManager);
@@ -179,24 +177,22 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
             try {
                 movieList = call.execute().body();
             } catch (IOException e) {
+                movieList = null;
                 e.printStackTrace();
             }
-            /*try {
-                response = NetworkUtils.getResponseFromHttpUrl(urls[0]);
-                movieList = NetworkUtils.parseTmdbResults(response);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
+
             return movieList;
         }
 
         @Override
         protected void onPostExecute(List<Movie> movieList) {
             super.onPostExecute(movieList);
-            MovieList.movieList.addAll(movieList);
-            MovieList.setPagesLoaded(MovieList.getPagesLoaded() + 1); //Increment page index to load the next one
+            if (movieList == null) {
+                MovieList.movieList.addAll(movieList);
+                MovieList.setPagesLoaded(MovieList.getPagesLoaded() + 1); //Increment page index to load the next one
 
-            mTmdbAdapter.notifyDataSetChanged();
+                mTmdbAdapter.notifyDataSetChanged();
+            }
             isLoading = false;
         }
 
