@@ -136,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        MovieList.movieList.clear();
+        MovieList.setPagesLoaded(0);
 
         switch (id) {
             case R.id.action_sort_by_popularity:
@@ -187,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
         @Override
         protected void onPostExecute(List<Movie> movieList) {
             super.onPostExecute(movieList);
-            if (movieList == null) {
+            if (movieList != null) {
                 MovieList.movieList.addAll(movieList);
                 MovieList.setPagesLoaded(MovieList.getPagesLoaded() + 1); //Increment page index to load the next one
 
