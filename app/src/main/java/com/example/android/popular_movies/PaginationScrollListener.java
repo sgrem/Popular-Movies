@@ -5,6 +5,11 @@ import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by Steve on 1/6/2018.
+ *
+ * Code Credit:
+ * Adapted from a tutorial on pagination at URL
+ * http://blog.iamsuleiman.com/android-pagination-tutorial-getting-started-recyclerview/
+ *
  */
 
 public abstract class PaginationScrollListener extends RecyclerView.OnScrollListener {
