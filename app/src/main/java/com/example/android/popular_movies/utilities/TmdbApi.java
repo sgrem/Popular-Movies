@@ -14,9 +14,13 @@ import retrofit2.http.Query;
 
 public interface TmdbApi {
 
-    @GET("/3/discover/movie")
-    Call<List<Movie>> getMovies(
-            @Query("sort_by") String sort_by,
+    @GET("/3/movie/popular")
+    Call<List<Movie>> getPopularMovies(
+            @Query("page") int pageIndex,
+            @Query("api_key") String api_key);
+
+    @GET("/3/movie/top_rated")
+    Call<List<Movie>> getTopRatedMovies(
             @Query("page") int pageIndex,
             @Query("api_key") String api_key);
 

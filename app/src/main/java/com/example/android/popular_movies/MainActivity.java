@@ -163,19 +163,19 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
 
         @Override
         protected List<Movie> doInBackground(MainActivity.SortMoviesBy... sortOrder) {
-            String sortOrderQuery = "popularity.desc";
+            Call<List<Movie>> call = null;
+            TmdbApi tmdbApi = NetworkUtils.RETROFIT.create(TmdbApi.class);
             switch (sortOrder[0]){
                 case POPULARITY:
-                    sortOrderQuery = "popularity.desc";
+                    call = tmdbApi.getPopularMovies(MovieList.getPagesLoaded() + 1, TmdbApiKey.TMDB_API);
                     break;
                 case RATING:
-                    sortOrderQuery = "vote_average.desc";
+                    call = tmdbApi.getTopRatedMovies(MovieList.getPagesLoaded() + 1, TmdbApiKey.TMDB_API);
                     break;
             }
 
             List<Movie> movieList = null;
-            TmdbApi tmdbApi = NetworkUtils.RETROFIT.create(TmdbApi.class);
-            Call<List<Movie>> call = tmdbApi.getMovies(sortOrderQuery, MovieList.getPagesLoaded() + 1, TmdbApiKey.TMDB_API);
+
             try {
                 movieList = call.execute().body();
             } catch (IOException e) {
