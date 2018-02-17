@@ -3,11 +3,12 @@
 To fetch popular movies, this app uses the API from themoviedb.org.
 * If you don’t already have an account, you will need to create one in order to request an API Key.
 * In your request for a key, state that your usage will be for educational/non-commercial use. You will also need to provide some personal information to complete the request. Once you submit your request, you should receive your key via email shortly after.
-* Create a class called TmdbApiKey as follows:
-> public class TmdbApiKey {
-    public static final String TMDB_API = "Your api key goes here"; }
+* Add the api to the app as a buildconfig property API_KEY
+	* gradle.properties: API_KEY="TooManySecrets"
+	* app/build.gradle: in defaultConfig add
+		* buildConfigField("String", "API_KEY", API_KEY)
 
-* Before committing this change, add TmdbApiKey.java to .gitignore to prevent the key from being pushed and shared on github
+* Before committing this change, add gradle.properties to .gitignore to prevent the key from being pushed and shared on github
 
 
 # Project Overview
