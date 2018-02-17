@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements TmdbAdapter.TmdbA
     private TextView mTvInternetMessage;
     private Button mBtnRetry;
 
-    // If current page is the last page (Pagination will stop after this page load)
-    private boolean isLastPage = false;
     // Indicates if footer ProgressBar is shown (i.e. next page is loading)
     private boolean isLoading = false;
 
