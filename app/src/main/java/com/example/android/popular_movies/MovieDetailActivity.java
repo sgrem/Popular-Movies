@@ -35,10 +35,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         Movie movie = MovieList.movieList.get(position);
         if (movie != null){
             Picasso.with(this).load(TmdbConstants.TMDB_POSTER_URL +
-                    movie.getPoster_path()).into(mIvImage);
-            mTvTitle.setText(movie.getOriginal_title());
-            mTvRating.setText(String.valueOf(movie.getVote_average()));
-            mTvReleaseDate.setText(movie.getRelease_date());
+                    movie.getPosterPath()).into(mIvImage);
+            mTvTitle.setText(movie.getOriginalTitle());
+            mTvRating.setText(String.valueOf(movie.getVoteAverage()));
+            mTvReleaseDate.setText(movie.getReleaseDate());
             mTvSynopsis.setText(movie.getOverview());
         }
     }

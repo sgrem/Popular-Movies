@@ -73,7 +73,7 @@ public class TmdbAdapter extends RecyclerView.Adapter<TmdbAdapter.TmdbAdapterVie
             mTmdbImageView.setOnClickListener(this);
             mTmdbImageView.setTag(Integer.valueOf(position));
             Picasso.with(context).load(TmdbConstants.TMDB_POSTER_URL +
-                    mMovieList.get(position).getPoster_path()).into(mTmdbImageView);
+                    mMovieList.get(position).getPosterPath()).into(mTmdbImageView);
         }
 
     }

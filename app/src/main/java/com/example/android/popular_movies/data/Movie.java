@@ -1,9 +1,6 @@
 package com.example.android.popular_movies.data;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Steve on 11/15/2017.
  */
@@ -11,22 +8,22 @@ import java.util.List;
 public class Movie {
 
     private int id;
-    private String original_title = null;
-    private String poster_path = null;
+    private String originalTitle = null;
+    private String posterPath = null;
     private String overview = null;
-    private double vote_average;
-    private String release_date = null;
+    private double voteAverage;
+    private String releaseDate = null;
 
     public Movie (){}
 
     public Movie(int id, String original_title, String poster_path, String overview,
                  double vote_average, String release_date){
         this.id = id;
-        this.original_title = original_title;
-        this.poster_path = poster_path;
+        this.originalTitle = original_title;
+        this.posterPath = poster_path;
         this.overview = overview;
-        this.vote_average = vote_average;
-        this.release_date = release_date;
+        this.voteAverage = vote_average;
+        this.releaseDate = release_date;
 
     }
 
@@ -38,20 +35,20 @@ public class Movie {
         this.id = id;
     }
 
-    public String getOriginal_title() {
-        return original_title;
+    public String getOriginalTitle() {
+        return originalTitle;
     }
 
-    public void setOriginal_title(String original_title) {
-        this.original_title = original_title;
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
     }
 
-    public String getPoster_path() {
-        return poster_path;
+    public String getPosterPath() {
+        return posterPath;
     }
 
-    public void setPoster_path(String poster_path) {
-        this.poster_path = poster_path;
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
     public String getOverview() {
@@ -62,19 +59,19 @@ public class Movie {
         this.overview = overview;
     }
 
-    public double getVote_average() {
-        return vote_average;
+    public double getVoteAverage() {
+        return voteAverage;
     }
 
-    public void setVote_average(double vote_average) {
-        this.vote_average = vote_average;
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
-    public String getRelease_date() {
-        return release_date;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

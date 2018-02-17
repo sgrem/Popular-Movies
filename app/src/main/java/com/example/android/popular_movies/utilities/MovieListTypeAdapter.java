@@ -59,11 +59,11 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
 
     private Movie readMovie(JsonReader reader) throws IOException {
         int id = 0;
-        String original_title = null;
-        String poster_path = null;
+        String originalTitle = null;
+        String posterPath = null;
         String overview = null;
-        double vote_average = 0.0;
-        String release_date = null;
+        double voteAverage = 0.0;
+        String releaseDate = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -81,14 +81,14 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
                         reader.nextNull();
                         continue;
                     }
-                    original_title = reader.nextString();
+                    originalTitle = reader.nextString();
                     break;
                 case "poster_path":
                     if (reader.peek() == JsonToken.NULL) {
                         reader.nextNull();
                         continue;
                     }
-                    poster_path = reader.nextString();
+                    posterPath = reader.nextString();
                     break;
                 case "overview":
                     if (reader.peek() == JsonToken.NULL) {
@@ -102,14 +102,14 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
                         reader.nextNull();
                         continue;
                     }
-                    vote_average = reader.nextDouble();
+                    voteAverage = reader.nextDouble();
                     break;
                 case "release_date":
                     if (reader.peek() == JsonToken.NULL) {
                         reader.nextNull();
                         continue;
                     }
-                    release_date = reader.nextString();
+                    releaseDate = reader.nextString();
                     break;
                 default:
                     reader.skipValue();
@@ -117,15 +117,15 @@ public class MovieListTypeAdapter extends TypeAdapter<List<Movie>> {
             }
         }
         reader.endObject();
-        if (validateMovieParms(id, original_title, poster_path, overview, vote_average, release_date)){
-            return new Movie(id, original_title, poster_path, overview, vote_average, release_date);
+        if (validateMovieParms(id, originalTitle, posterPath, overview, voteAverage, releaseDate)){
+            return new Movie(id, originalTitle, posterPath, overview, voteAverage, releaseDate);
         }
         return null;
     }
 
-    private boolean validateMovieParms(int id, String original_title, String poster_path, String overview,
-                                       double vote_average, String release_date){
-        if (poster_path == null){
+    private boolean validateMovieParms(int id, String originalTitle, String posterPath, String overview,
+                                       double voteAverage, String releaseDate){
+        if (posterPath == null){
             return false;
         }
         return true;
